@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Chain of responsibility example</string>
+
+    <string name="hint_price">Enter price</string>
+
+    <string name="btn_withdraw">Withdraw</string>
+</resources>
