@@ -1,15 +1,13 @@
 package com.github.masoudmahmoodzadeh.chain;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.masoudmahmoodzadeh.chain.base.WithdrawAble;
+import com.github.masoudmahmoodzadeh.chain.databinding.MoneyListItemBinding;
 
 import java.util.List;
 
@@ -24,8 +22,9 @@ public class MoneyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.inc_dollar, parent, false);
-        return new MoneyViewHolder(rootView);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        MoneyListItemBinding binding = MoneyListItemBinding.inflate(inflater);
+        return new MoneyViewHolder(binding);
     }
 
     @Override
@@ -33,9 +32,9 @@ public class MoneyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         MoneyViewHolder viewHolder = (MoneyViewHolder) holder;
 
         WithdrawAble withdrawAble = list.get(position);
-        viewHolder.tv_count.setText(String.valueOf(withdrawAble.getCount()).concat(" X "));
-        viewHolder.tv_dollar.setText(String.valueOf(withdrawAble.getMoney().getPrice()).concat("$"));
-        viewHolder.iv_dollar.setBackgroundResource(withdrawAble.getMoney().getIcon());
+        viewHolder.binding.tvCount.setText(String.valueOf(withdrawAble.getCount()).concat(" X "));
+        viewHolder.binding.tvInventory.setText(String.valueOf(withdrawAble.getMoney().getPrice()).concat("$"));
+        viewHolder.binding.ivDollar.setBackgroundResource(withdrawAble.getMoney().getIcon());
 
     }
 
@@ -45,15 +44,11 @@ public class MoneyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private static class MoneyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tv_count;
-        private final TextView tv_dollar;
-        private final ImageView iv_dollar;
+        private final MoneyListItemBinding binding;
 
-        public MoneyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tv_count = itemView.findViewById(R.id.tv_count);
-            tv_dollar = itemView.findViewById(R.id.tv_dollar);
-            iv_dollar = itemView.findViewById(R.id.iv_dollar);
+        public MoneyViewHolder(@NonNull MoneyListItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.github.masoudmahmoodzadeh.chain;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +18,7 @@ import com.github.masoudmahmoodzadeh.chain.base.handlers.OneHundredDollar;
 import com.github.masoudmahmoodzadeh.chain.base.handlers.TenDollar;
 import com.github.masoudmahmoodzadeh.chain.base.handlers.TwentyDollar;
 import com.github.masoudmahmoodzadeh.chain.base.handlers.TwoDollar;
+import com.github.masoudmahmoodzadeh.chain.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +27,22 @@ public class MainActivity extends AppCompatActivity implements OnWithdrawListene
 
     private final List<WithdrawAble> withdrawAbleMoney = new ArrayList<>();
     private MoneyAdapter moneyAdapter;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         List<Money> chain = createChain();
 
-        EditText etPrice = findViewById(R.id.et_price);
-        Button btnWithdraw = findViewById(R.id.btn_withdraw);
-
         configRecyclerView();
 
-        btnWithdraw.setOnClickListener(view -> {
+        binding.btnWithdraw.setOnClickListener(v -> {
             withdrawAbleMoney.clear();
-            int price = Integer.parseInt(etPrice.getText().toString());
+            int price = Integer.parseInt(binding.etPrice.getText().toString());
             chain.get(0).check(price);
             if (withdrawAbleMoney.isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.msg_not_enough_inventory, Toast.LENGTH_LONG).show();
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity implements OnWithdrawListene
     }
 
     private void configRecyclerView() {
-        RecyclerView rv_dollar = findViewById(R.id.rv_money);
+
         RecyclerView.LayoutManager manager = new GridLayoutManager(MainActivity.this, 4);
-        rv_dollar.setLayoutManager(manager);
+        binding.rvMoney.setLayoutManager(manager);
 
         moneyAdapter = new MoneyAdapter(withdrawAbleMoney);
-        rv_dollar.setAdapter(moneyAdapter);
+        binding.rvMoney.setAdapter(moneyAdapter);
     }
 }
