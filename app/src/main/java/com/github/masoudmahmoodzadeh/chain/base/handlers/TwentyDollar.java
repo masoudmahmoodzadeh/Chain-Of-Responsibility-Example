@@ -1,5 +1,6 @@
 package com.github.masoudmahmoodzadeh.chain.base.handlers;
 
+import com.github.masoudmahmoodzadeh.chain.R;
 import com.github.masoudmahmoodzadeh.chain.base.Money;
 import com.github.masoudmahmoodzadeh.chain.base.OnWithdrawListener;
 import com.github.masoudmahmoodzadeh.chain.base.WithdrawAble;
@@ -31,5 +32,10 @@ public class TwentyDollar extends Money {
     @Override
     public int getPrice() {
         return 20;
+    }
+
+    @Override
+    public int getIcon() {
+        return R.drawable.ic_twenty;
     }
 }

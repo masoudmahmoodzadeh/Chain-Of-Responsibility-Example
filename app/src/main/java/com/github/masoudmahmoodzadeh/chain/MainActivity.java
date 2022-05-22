@@ -6,6 +6,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.masoudmahmoodzadeh.chain.base.Money;
 import com.github.masoudmahmoodzadeh.chain.base.OnWithdrawListener;
@@ -24,6 +26,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnWithdrawListener {
 
     private final List<WithdrawAble> withdrawAbleMoney = new ArrayList<>();
+    private MoneyAdapter moneyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +38,20 @@ public class MainActivity extends AppCompatActivity implements OnWithdrawListene
         EditText etPrice = findViewById(R.id.et_price);
         Button btnWithdraw = findViewById(R.id.btn_withdraw);
 
+        configRecyclerView();
+
         btnWithdraw.setOnClickListener(view -> {
             withdrawAbleMoney.clear();
             int price = Integer.parseInt(etPrice.getText().toString());
             chain.get(0).check(price);
             if (withdrawAbleMoney.isEmpty()) {
-                Toast.makeText(MainActivity.this, "موجودی کافی نیست", Toast.LENGTH_LONG).show();
-            } else {
-
-                String withdraw = "";
-
-                for (WithdrawAble item : withdrawAbleMoney) {
-                    withdraw = item.getCount() + "=" + item.getMoney().getPrice() + "\n" + withdraw;
-
-                }
-
-                Toast.makeText(MainActivity.this, withdraw, Toast.LENGTH_LONG).show();
-
+                Toast.makeText(MainActivity.this, R.string.msg_not_enough_inventory, Toast.LENGTH_LONG).show();
             }
+            moneyAdapter.notifyDataSetChanged();
+
         });
+
+
     }
 
     private List<Money> createChain() {
@@ -81,5 +79,14 @@ public class MainActivity extends AppCompatActivity implements OnWithdrawListene
     @Override
     public void withdraw(WithdrawAble withdrawable) {
         withdrawAbleMoney.add(withdrawable);
+    }
+
+    private void configRecyclerView() {
+        RecyclerView rv_dollar = findViewById(R.id.rv_money);
+        RecyclerView.LayoutManager manager = new GridLayoutManager(MainActivity.this, 4);
+        rv_dollar.setLayoutManager(manager);
+
+        moneyAdapter = new MoneyAdapter(withdrawAbleMoney);
+        rv_dollar.setAdapter(moneyAdapter);
     }
 }

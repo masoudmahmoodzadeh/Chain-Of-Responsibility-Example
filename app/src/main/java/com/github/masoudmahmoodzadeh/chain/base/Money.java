@@ -15,4 +15,6 @@ public abstract class Money {
     public abstract void check(int withdraw);
 
     public abstract int getPrice();
+
+    public abstract int getIcon();
 }

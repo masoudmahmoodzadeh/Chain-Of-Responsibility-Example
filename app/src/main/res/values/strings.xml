@@ -4,4 +4,7 @@
     <string name="hint_price">Enter price</string>
 
     <string name="btn_withdraw">Withdraw</string>
+
+    <string name="msg_not_enough_inventory">موجودی کافی نیست</string>
+
 </resources>
