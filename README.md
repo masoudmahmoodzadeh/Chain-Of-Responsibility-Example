@@ -4,9 +4,6 @@ this project example of **Chain of Responsibility** design pattern and implement
 
 developed with **JAVA**
 
-## Usage
-
-Each request must inherit from the **BaseAppRequest**
 
 ~~~ java
 
